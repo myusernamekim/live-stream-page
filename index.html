@@ -2,8 +2,18 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>저지연 라이브 스트리밍 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>저지연 라이브 스트리밍 DEMO</title>
+
+  <!-- 파비콘 -->
+  <!--
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  -->
+
+  <!-- Pretendard 가변 웹폰트 -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
   <style>
     body {
       margin: 0;
@@ -25,6 +35,7 @@
       justify-content: center;
       align-items: center;
       font-size: 2em;
+      font-family: 'PretendardVariable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     }
     video {
       width: 90%;
@@ -40,9 +51,7 @@
 
   <div class="clock-container" id="clock">--:--:--</div>
 
-  <!-- HLS.js 라이브러리 로드 -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
   <script>
     // 테스트용 HLS 스트리밍 주소 (주소 변경 필요)
     const hlsStreamUrl = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
@@ -57,7 +66,6 @@
         video.play();
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      // iOS Safari 지원
       video.src = hlsStreamUrl;
       video.addEventListener("loadedmetadata", function () {
         video.play();
@@ -66,7 +74,6 @@
       alert("브라우저가 HLS를 지원하지 않습니다.");
     }
 
-    // 시계 업데이트
     function updateClock() {
       const now = new Date();
       document.getElementById("clock").textContent = now.toLocaleTimeString();
