@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>라이브 스트리밍 테스트</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .player-container {
+      flex: 2;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .clock-container {
+      flex: 1;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+    }
+    video {
+      width: 90%;
+      height: 90%;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="player-container">
+    <video id="video" controls autoplay muted></video>
+  </div>
+
+  <div class="clock-container" id="clock">--:--:--</div>
+
+  <!-- HLS.js 라이브러리 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <script>
+    // 테스트용 HLS 스트리밍 주소 (Mux 제공)
+    const hlsStreamUrl = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+
+    const video = document.getElementById("video");
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(hlsStreamUrl);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // iOS Safari 지원
+      video.src = hlsStreamUrl;
+      video.addEventListener("loadedmetadata", function () {
+        video.play();
+      });
+    } else {
+      alert("브라우저가 HLS를 지원하지 않습니다.");
+    }
+
+    // 시계 업데이트
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
