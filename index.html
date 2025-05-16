@@ -59,7 +59,9 @@
     const video = document.getElementById("video");
 
     if (Hls.isSupported()) {
-      const hls = new Hls();
+      const hls = new Hls({
+        lowLatencyMode: true // LL-HLS 활성화 옵션
+      });
       hls.loadSource(hlsStreamUrl);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
