@@ -36,8 +36,16 @@
       justify-content: center;
       align-items: center;
       font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      font-weight: 500;
-      font-size: 4em;
+      flex-direction: column;
+    }
+    #clock-label {
+      font-size: 1em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    #clock-time {
+      font-size: 3em;
+      font-weight: 600;
     }
     iframe {
       width: 90%;
@@ -71,21 +79,22 @@
     </div>
   </div>
 
-  <div class="clock-container" id="clock">--:--:--</div>
+  <div class="clock-container">
+    <div id="clock-label">현재 시간</div>
+    <div id="clock-time">--:--:--</div>
+  </div>
 
-<script>
-  function updateClock() {
-    const now = new Date();
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("clock-time").textContent = `${hours}:${minutes}:${seconds}`;
+    }
 
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-
-    document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
-  }
-
-  setInterval(updateClock, 1000);
-  updateClock();
-</script>
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
 </body>
 </html>
