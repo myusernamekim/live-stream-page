@@ -37,44 +37,25 @@
       font-weight: 700;
       font-size: 2em;
     }
-    video {
+    iframe {
       width: 90%;
       height: 90%;
-      background-color: black;
+      border: none;
     }
   </style>
 </head>
 <body>
   <div class="player-container">
-    <video id="video" controls autoplay muted></video>
+    <iframe
+      src="https://v-live-kr.kollus.com/rsvlqei0yeo6ghwf"
+      allowfullscreen
+      allow="autoplay"
+    ></iframe>
   </div>
 
   <div class="clock-container" id="clock">--:--:--</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    const hlsStreamUrl = "https://v-live-kr.kollus.com/rsvlqei0yeo6ghwf";
-
-    const video = document.getElementById("video");
-
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        lowLatencyMode: true // LL-HLS 활성화 옵션
-      });
-      hls.loadSource(hlsStreamUrl);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
-      });
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = hlsStreamUrl;
-      video.addEventListener("loadedmetadata", function () {
-        video.play();
-      });
-    } else {
-      alert("브라우저가 HLS를 지원하지 않습니다.");
-    }
-
     function updateClock() {
       const now = new Date();
       document.getElementById("clock").textContent = now.toLocaleTimeString();
